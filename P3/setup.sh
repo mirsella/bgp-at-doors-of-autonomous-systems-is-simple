@@ -5,4 +5,5 @@ for id in $(docker ps -q); do
 	script=scripts/$(echo $hostname).sh
 	echo "applying $script config to $hostname ($id)"
 	cat $script | docker exec -i $id sh
+	sleep 1
 done

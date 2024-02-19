@@ -14,15 +14,13 @@ configure terminal
 !
 no ipv6 forwarding
 !
-interface eth1
+interface eth0
   ip address 10.1.1.2/30
   ip ospf area 0
-exit
 !
 interface lo
   ip address 1.1.1.2/32
   ip ospf area 0
-exit
 !
 router bgp 1
   neighbor 1.1.1.1 remote-as 1
@@ -31,6 +29,9 @@ router bgp 1
   address-family l2vpn evpn
     neighbor 1.1.1.1 activate
     advertise-all-vni
-  exit
-exit
+  exit-address-family
+!
+router ospf
+!
+end
 EOF

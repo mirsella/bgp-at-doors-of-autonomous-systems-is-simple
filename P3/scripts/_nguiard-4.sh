@@ -6,7 +6,7 @@ ip link set dev br0 up
 ip link add vxlan10 type vxlan id 10 dstport 4789
 ip link set dev vxlan10 up
 brctl addif br0 vxlan10
-brctl addif br0 eth2
+brctl addif br0 eth0
 
 # "Switch" configuration
 vtysh << EOF
@@ -14,15 +14,13 @@ configure terminal
 !
 no ipv6 forwarding
 !
-interface eth0
+interface eth2
   ip address 10.1.1.10/30
-  ip osfp area 0
-exit
+  ip ospf area 0
 !
 interface lo
   ip address 1.1.1.4/32
-  ip osfp area 0
-exit
+  ip ospf area 0
 !
 router bgp 1
   neighbor 1.1.1.1 remote-as 1
@@ -31,7 +29,10 @@ router bgp 1
   address-family l2vpn evpn
     neighbor 1.1.1.1 activate
     advertise-all-vni
-  exit
   !
-exit
+ exit-address-family
+!
+router ospf
+!
+end
 EOF
